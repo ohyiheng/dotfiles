@@ -1,0 +1,13 @@
+directory: /data/media/music
+library: ~/.config/beets/library.db
+plugins: spotify fromfilename inline
+import:
+  copy: no
+item_fields:
+  disc_and_track: u'%i-%02i.' % (disc, track) if disctotal > 1 else u'%02i.' % (track)
+paths:
+  default: $albumartist/$album%aunique{}/$disc_and_track $title
+spotify:
+  source_weight: 0.0
+musicbrainz:
+  enabled: no
