@@ -60,7 +60,7 @@ eval "$(atuin init zsh)"
 # ---------------- Aliases ---------------- #
 alias cd=z
 alias bat=batcat
-alias ls="ls -alh"
+alias lh="ls -alh"
 alias creload="docker exec -w /etc/caddy caddy caddy reload"
 alias tag=onetagger
 alias dot=chezmoi
