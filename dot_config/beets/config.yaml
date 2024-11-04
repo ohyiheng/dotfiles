@@ -1,13 +1,88 @@
+plugins: fetchart scrub replaygain lastgenre spotify inline lyrics unimported importreplace drop2beets deezer
 directory: /data/media/music
 library: ~/.config/beets/library.db
-plugins: spotify fromfilename inline
-import:
-  copy: no
+threaded: yes
+original_date: no
+per_disc_numbering: yes
+
+# convert:
+#     auto: no
+#     ffmpeg: /usr/bin/ffmpeg
+#     opts: -ab 320k -ac 2 -ar 48000
+#     max_bitrate: 320
+#     threads: 1
+
 item_fields:
   disc_and_track: u'%i-%02i.' % (disc, track) if disctotal > 1 else u'%02i.' % (track)
+
 paths:
-  default: $albumartist/$album%aunique{}/$disc_and_track $title
+  default: %first{$albumartist}/$album%aunique{}/$disc_and_track %first{$artist} - $title
+  # singleton: Non-Album/$artist - $title
+  # comp: Compilations/$album%aunique{}/$track - $title
+  # albumtype_soundtrack: Soundtracks/$album/$track $title
+
+import:
+  write: yes
+  copy: no
+  move: yes
+  resume: ask
+  incremental: no
+  quiet_fallback: asis
+  timid: no
+  group_albums: yes
+  log: ~/.config/beets/beet.log
+
+importreplace:
+  replacements:
+    - item_fields: artist albumartist
+      album_fields: albumartist artist
+      replace:
+        ',': ';'
+
+unimported:
+  ignore_extensions: jpg png jpeg nfo lrc cue m3u m3u8 url sfv log pdf ini txt aup3
+  ignore_subdirectories: _weekly .thumbnails
+
+drop2beets:
+  dropbox_path: /data/media/music/_downloads
+  log_path: ~/.config/beets/drop2beets.log
+
+lastgenre:
+  auto: yes
+  source: album
+
+# embedart:
+#     auto: yes
+
+fetchart:
+  auto: yes
+
+lyrics:
+  synced: yes
+
+replaygain:
+  auto: no
+  backend: ffmpeg
+
+scrub:
+  auto: yes
+
 spotify:
   source_weight: 0.0
+deezer:
+  source_weight: 0.5
 musicbrainz:
   enabled: no
+  
+# replace:
+#     '^\.': _
+#     '[\x00-\x1f]': _
+#     '[<>:"\?\*\|]': _
+#     '[\xE8-\xEB]': e
+#     '[\xEC-\xEF]': i
+#     '[\xE2-\xE6]': a
+#     '[\xF2-\xF6]': o
+#     '[\xF8]': o
+#     '\.$': _
+#     '\s+$': ''
+
