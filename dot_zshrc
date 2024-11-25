@@ -1,6 +1,6 @@
 # --------- Environment variables --------- #
 # For zoxide
-export PATH=$PATH:$HOME/.local/bin
+export PATH=$PATH:$HOME/.local/bin:$HOME/bin
 export EDITOR=nvim
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -48,13 +48,23 @@ else
 fi
 
 
-# Set up fzf key bindings and fuzzy completion, assumes fzf is installed
+# --------------- Install fzf --------------- #
+if [ ! -e $HOME/.fzf/bin/fzf ]; then
+  echo "\nfzf not found, installing...\n"
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install --no-bash --no-fish --no-zsh
+  export PATH=$PATH:$HOME/.fzf/bin
+fi
 source <(fzf --zsh)
 
 
-# Set up Atuin, assume Atuin is installed
-. "$HOME/.atuin/bin/env"
+# -------------- Set up Atuin -------------- #
+if [ ! -e $HOME/.atuin/bin ]; then 
+  echo "Atuin not installed, installing..."
+  curl --proto '=https' --tlsv1.2 -LsSf https://github.com/atuinsh/atuin/releases/latest/download/atuin-installer.sh | sh
+fi
 eval "$(atuin init zsh)"
+. "$HOME/.atuin/bin/env"
 
 
 # ---------------- Aliases ---------------- #
@@ -83,10 +93,10 @@ setopt hist_ignore_space
 
 
 # ---------------- Welcome ---------------- #
-
 clear
-echo "\nWelcome to hummingbird!\n"
-fastfetch
-
-
-
+echo "\nWelcome to $HOST!\n"
+if [ -e /usr/bin/fastfetch ]; then
+  fastfetch
+else
+  echo "Install fastfetch to view system info."
+fi
