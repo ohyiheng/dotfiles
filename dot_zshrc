@@ -53,8 +53,8 @@ if [ ! -e $HOME/.fzf/bin/fzf ]; then
   echo "\nfzf not found, installing...\n"
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
   ~/.fzf/install --no-bash --no-fish --no-zsh
-  export PATH=$PATH:$HOME/.fzf/bin
 fi
+export PATH=$PATH:$HOME/.fzf/bin
 source <(fzf --zsh)
 
 
@@ -90,6 +90,12 @@ HISTDUP=erase
 setopt appendhistory
 setopt sharehistory
 setopt hist_ignore_space
+
+
+# -------------- Add SSH Key -------------- #
+clear
+eval $(ssh-agent)
+ssh-add $HOME/.ssh/id_ed25519
 
 
 # ---------------- Welcome ---------------- #
