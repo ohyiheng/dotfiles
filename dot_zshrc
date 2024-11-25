@@ -69,7 +69,9 @@ eval "$(atuin init zsh)"
 
 # ---------------- Aliases ---------------- #
 alias cd=z
-alias bat=batcat
+if command -v batcat > /dev/null 2>&1; then
+  alias bat=batcat
+fi
 alias lh="ls -alh"
 alias creload="docker exec -w /etc/caddy caddy caddy reload"
 alias tag=onetagger
@@ -100,9 +102,13 @@ ssh-add $HOME/.ssh/id_ed25519
 
 # ---------------- Welcome ---------------- #
 clear
-echo "\nWelcome to $HOST!\n"
+echo "\nWelcome to $HOST!"
 if [ -e /usr/bin/fastfetch ]; then
+  echo "\n"
   fastfetch
 else
-  echo "Install fastfetch to view system info."
+  echo "\nInstall fastfetch to view system info."
+fi
+if ! command -v bat > /dev/null 2>&1; then
+  echo "\nInstall bat because it's better than cat."
 fi
