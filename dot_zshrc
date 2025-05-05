@@ -59,13 +59,10 @@ source <(fzf --zsh)
 
 
 # -------------- Set up Atuin -------------- #
-if [ ! -e $HOME/.atuin/bin ]; then 
-  echo "Atuin not installed, installing..."
-  curl --proto '=https' --tlsv1.2 -LsSf https://github.com/atuinsh/atuin/releases/latest/download/atuin-installer.sh | sh
-fi
-eval "$(atuin init zsh)"
-. "$HOME/.atuin/bin/env"
-
+zinit ice as"command" from"gh-r" bpick"atuin-*.tar.gz" mv"atuin*/atuin -> atuin" \
+    atclone"./atuin init zsh > init.zsh; ./atuin gen-completions --shell zsh > _atuin" \
+    atpull"%atclone" src"init.zsh"
+zinit light atuinsh/atuin
 
 # ---------------- Aliases ---------------- #
 alias cd=z
