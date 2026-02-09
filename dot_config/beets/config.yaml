@@ -1,4 +1,4 @@
-plugins: fetchart scrub replaygain lastgenre spotify inline lyrics unimported importreplace drop2beets deezer
+plugins: fetchart scrub replaygain lastgenre spotify inline lyrics unimported importreplace edit filetote
 directory: /data/media/music
 library: ~/.config/beets/library.db
 threaded: yes
@@ -59,9 +59,10 @@ fetchart:
 
 lyrics:
   synced: yes
+  sources: [lrclib]
 
 replaygain:
-  auto: no
+  auto: yes
   backend: ffmpeg
 
 scrub:
@@ -69,11 +70,16 @@ scrub:
 
 spotify:
   source_weight: 0.0
+  client_id: b53fc35f5d4b4c61a8cd2043ac7cfb69
+  client_secret: eba59933c1994140866d83d357b5a861
 deezer:
   source_weight: 0.5
 musicbrainz:
   enabled: no
   
+filetote:
+  extensions: .jpg .cue
+
 # replace:
 #     '^\.': _
 #     '[\x00-\x1f]': _
