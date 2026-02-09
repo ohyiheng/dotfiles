@@ -52,10 +52,10 @@ source <(fzf --zsh)
 
 
 # -------------- Set up Atuin -------------- #
-zinit ice as"command" from"gh-r" bpick"atuin-*.tar.gz" mv"atuin*/atuin -> atuin" \
-    atclone"./atuin init zsh > init.zsh; ./atuin gen-completions --shell zsh > _atuin" \
-    atpull"%atclone" src"init.zsh"
-zinit light atuinsh/atuin
+if [[ ! -f $HOME/.atuin/bin/atuin ]]; then
+  curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+fi
+
 
 # ---------------- Aliases ---------------- #
 alias cd=z
@@ -89,4 +89,8 @@ setopt hist_ignore_space
 
 
 # -------- Device-specific configs -------- #
-. ~/.extras.zsh
+if [[ ! -f ~/.extras.zsh ]]; then
+  touch ~/.extras.zsh
+else
+  . ~/.extras.zsh
+fi
