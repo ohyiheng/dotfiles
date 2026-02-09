@@ -1,5 +1,5 @@
 # --------- Environment variables --------- #
-export PATH=$PATH:$HOME/.local/bin:/opt/nvim-linux-x86_64/bin
+export PATH=$PATH:$HOME/.local/bin:$HOME/bin:/opt/nvim-linux-x86_64/bin
 
 
 # ------------- Starship prompt ------------- #
@@ -41,14 +41,21 @@ else
 fi
 
 
-# Set up fzf key bindings and fuzzy completion, assumes fzf is installed
+# --------------- Install fzf --------------- #
+if [ ! -e $HOME/.fzf/bin/fzf ]; then
+  echo "\nfzf not found, installing...\n"
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install --no-bash --no-fish --no-zsh
+fi
+export PATH=$PATH:$HOME/.fzf/bin
 source <(fzf --zsh)
 
 
-# Set up Atuin, assume Atuin is installed
-. "$HOME/.atuin/bin/env"
-eval "$(atuin init zsh)"
-
+# -------------- Set up Atuin -------------- #
+zinit ice as"command" from"gh-r" bpick"atuin-*.tar.gz" mv"atuin*/atuin -> atuin" \
+    atclone"./atuin init zsh > init.zsh; ./atuin gen-completions --shell zsh > _atuin" \
+    atpull"%atclone" src"init.zsh"
+zinit light atuinsh/atuin
 
 # ---------------- Aliases ---------------- #
 alias cd=z
@@ -69,6 +76,7 @@ bindkey "^U"      backward-kill-line
 bindkey '^H'      backward-kill-word
 bindkey "^[[H"    beginning-of-line
 bindkey "^[[F"    end-of-line
+
 
 # --------- Configure history file --------- #
 HISTSIZE=5000
