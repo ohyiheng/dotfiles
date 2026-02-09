@@ -1,16 +1,16 @@
 # --------- Environment variables --------- #
-# For zoxide
-export PATH=$PATH:$HOME/.local/bin
-export EDITOR=nvim
+export PATH=$PATH:$HOME/.local/bin:/opt/nvim-linux-x86_64/bin
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+
+# ------------- Starship prompt ------------- #
+if [[ ! -f /usr/local/bin/starship ]]; then
+  echo "Installing starship...\n"
+  curl -sS https://starship.rs/install.sh | sh
 fi
+eval "$(starship init zsh)"
 
-# ------------ Zinit's installer ------------
+
+# ------------ Zinit's installer ------------ #
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
     print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
     command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
@@ -23,13 +23,6 @@ source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 # --------- End of Zinit's installer --------- #
-
-
-# ----------- Powerlevel10k Prompt ----------- #
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 
 # --------- Load Plugins using Zinit --------- #
@@ -59,18 +52,23 @@ eval "$(atuin init zsh)"
 
 # ---------------- Aliases ---------------- #
 alias cd=z
-alias bat=batcat
+if command -v batcat > /dev/null 2>&1; then
+  alias bat=batcat
+fi
 alias lh="ls -alh"
-alias creload="docker exec -w /etc/caddy caddy caddy reload"
 alias tag=onetagger
 alias dot=chezmoi
+alias caddit="nvim ~/docker/stacks/caddy/Caddyfile"
+alias creload="docker exec -w /etc/caddy caddy caddy reload"
 
 
 # -------------- Keybindings -------------- #
 bindkey '^[[1;5C' forward-word
 bindkey '^[[1;5D' backward-word
 bindkey "^U"      backward-kill-line
-
+bindkey '^H'      backward-kill-word
+bindkey "^[[H"    beginning-of-line
+bindkey "^[[F"    end-of-line
 
 # --------- Configure history file --------- #
 HISTSIZE=5000
@@ -82,11 +80,5 @@ setopt sharehistory
 setopt hist_ignore_space
 
 
-# ---------------- Welcome ---------------- #
-
-clear
-echo "\nWelcome to hummingbird!\n"
-fastfetch
-
-
-
+# -------- Device-specific configs -------- #
+. ~/.extras.zsh
