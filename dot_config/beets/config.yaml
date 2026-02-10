@@ -70,8 +70,8 @@ scrub:
 
 spotify:
   source_weight: 0.0
-  client_id: b53fc35f5d4b4c61a8cd2043ac7cfb69
-  client_secret: eba59933c1994140866d83d357b5a861
+  client_id: client_id
+  client_secret: client_secret
 deezer:
   source_weight: 0.5
 musicbrainz:
