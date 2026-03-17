@@ -2,9 +2,21 @@
 export PATH=$PATH:$HOME/.local/bin:$HOME/bin:/opt/nvim-linux-x86_64/bin
 
 
+# ----------- Check dependencies ----------- #
+if ! command -v git > /dev/null 2>&1; then
+    printf "Install git to continue initialisation.\n"
+    return
+fi
+
+if ! command -v awk > /dev/null 2>&1; then
+    printf "Install awk to continue initialisation.\n"
+    return
+fi
+
+
 # ------------- Starship prompt ------------- #
 if [[ ! -f /usr/local/bin/starship ]]; then
-  echo "Installing starship...\n"
+  printf "Installing starship...\n"
   curl -sS https://starship.rs/install.sh | sh
 fi
 eval "$(starship init zsh)"
@@ -34,7 +46,7 @@ zinit light zsh-users/zsh-syntax-highlighting
 
 # --------------- Init zoxide --------------- #
 if [[ ! -f $HOME/.local/bin/zoxide ]]; then
-    echo "Installing zoxide...\n"
+    printf "Installing zoxide...\n"
     curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 else
     eval "$(zoxide init zsh)"
@@ -43,7 +55,7 @@ fi
 
 # --------------- Install fzf --------------- #
 if [ ! -e $HOME/.fzf/bin/fzf ]; then
-  echo "\nfzf not found, installing...\n"
+  printf "fzf not found, installing...\n"
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
   ~/.fzf/install --no-bash --no-fish --no-zsh
 fi
@@ -94,3 +106,7 @@ if [[ ! -f ~/.extras.zsh ]]; then
 else
   . ~/.extras.zsh
 fi
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh)"
