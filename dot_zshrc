@@ -69,6 +69,18 @@ if [[ ! -f $HOME/.atuin/bin/atuin ]]; then
 fi
 
 
+# -------------- Install neovim -------------- #
+if ! command -v nvim > /dev/null 2>&1; then
+  printf "Neovim not found, installing...\n"
+  mkdir -p $HOME/.local/bin
+  mkdir -p $HOME/.local/share/nvim-dist
+  curl -LO "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz"
+  tar -xzf nvim-linux-x86_64.tar.gz -C "$HOME/.local/share/nvim-dist" --strip-components=1
+  ln -sf $HOME/.local/share/nvim-dist/bin/nvim $HOME/.local/bin/nvim
+  rm nvim-linux-x86_64.tar.gz
+fi
+
+
 # ---------------- Aliases ---------------- #
 alias cd=z
 if command -v batcat > /dev/null 2>&1; then
