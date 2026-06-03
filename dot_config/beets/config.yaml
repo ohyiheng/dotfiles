@@ -1,5 +1,5 @@
-plugins: fetchart scrub replaygain lastgenre spotify inline lyrics unimported importreplace edit filetote
-directory: /data/media/music
+plugins: fetchart scrub replaygain lastgenre inline lyrics unimported importreplace edit filetote musicbrainz fromfilename
+directory: /data/media/audio/music
 library: ~/.config/beets/library.db
 threaded: yes
 original_date: no
@@ -38,14 +38,16 @@ importreplace:
       album_fields: albumartist artist
       replace:
         ',': ';'
+    - item_fields: title artist artist_sort artist_credit
+      album_fields: album artist artist_sort artist_credit
+      replace:
+        '[\u2018-\u201B]': ''''
+        '[\u201C-\u201F]': '"'
+        '[\u2010-\u2015]': '-'
 
 unimported:
   ignore_extensions: jpg png jpeg nfo lrc cue m3u m3u8 url sfv log pdf ini txt aup3
   ignore_subdirectories: _weekly .thumbnails
-
-drop2beets:
-  dropbox_path: /data/media/music/_downloads
-  log_path: ~/.config/beets/drop2beets.log
 
 lastgenre:
   auto: yes
@@ -58,6 +60,7 @@ fetchart:
   auto: yes
 
 lyrics:
+  auto: no
   synced: yes
   sources: [lrclib]
 
@@ -68,17 +71,13 @@ replaygain:
 scrub:
   auto: yes
 
-spotify:
-  source_weight: 0.0
-  client_id: client_id
-  client_secret: client_secret
 deezer:
   source_weight: 0.5
 musicbrainz:
-  enabled: no
+  genre: yes
   
 filetote:
-  extensions: .jpg .cue
+  extensions: .jpg .cue .png
 
 # replace:
 #     '^\.': _
