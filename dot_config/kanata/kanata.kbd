@@ -42,6 +42,14 @@
   lctl lmet lalt           spc            @sym rmet rctl
 )
 
+(deflayer graphite
+  @swl 1    2    3    4    5    6    7    8    9    0    [    ]    bspc
+  tab  b    l    d    w    z    @'   f    o    u    j    ;    =    \
+  caps n    r    t    s    g    y    h    a    e    i    @,   ret
+  lsft q    x    m    c    v    k    p    .    @-   @/   rsft
+  lctl lmet lalt           spc            @sym rmet rctl
+)
+
 (deflayer extend
   _    prev pp   next _    _    _    _    _    _    _    _    _    _   
   _    _    _    _    _    _    pgup home up   end  del  _    _    _ 
@@ -70,11 +78,18 @@
   ;; layer-switch changes the base layer.
   cny (layer-switch canary)
   qwr (layer-switch qwerty)
+  gph (layer-switch graphite)
 
   ;; tap for capslk, hold for lctl
   cap (tap-hold 125 125 caps (layer-toggle extend))
 
   sym (tap-hold 125 125 ralt (layer-toggle symbols))
+
+  ;; shift-pairs used in graphite layer
+  ' (fork ' S-- (lsft rsft))  ;; Shift + ' -> _
+  , (fork , S-/ (lsft rsft))  ;; Shift + , -> ?
+  - (fork - S-' (lsft rsft))  ;; Shift + - -> "
+  / (fork / S-, (lsft rsft))  ;; Shift + / -> <
 )
 
 ;; The `lrld` action stands for "live reload". This will re-parse everything
@@ -87,7 +102,7 @@
 ;; underscore _ which means "transparent". Transparent means the base layer
 ;; behaviour is used when pressing that key.
 (deflayer layouts
-  _    @qwr @cny lrld _    _    _    _    _    _    _    _    _    _
+  _    @qwr @cny @gph lrld _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _ 
   _    _    _    _    _    _    _    _    _    _    _    _    _  
   _    _    _    _    _    _    _    _    _    _    _    _   
