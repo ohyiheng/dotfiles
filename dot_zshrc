@@ -1,5 +1,5 @@
 # --------- Environment variables --------- #
-export PATH=$PATH:$HOME/.local/bin:$HOME/bin:/opt/nvim-linux-x86_64/bin
+export PATH=$PATH:$HOME/.local/bin:$HOME/bin:$HOME/scripts:/opt/nvim-linux-x86_64/bin
 
 
 # ----------- Check dependencies ----------- #
@@ -94,10 +94,10 @@ alias creload="docker exec -w /etc/caddy caddy caddy reload"
 
 
 # -------------- Keybindings -------------- #
-bindkey '^[[1;5C' forward-word
-bindkey '^[[1;5D' backward-word
+bindkey '^[[1;5C' vi-forward-word
+bindkey '^[[1;5D' vi-backward-word
 bindkey "^U"      backward-kill-line
-bindkey '^H'      backward-kill-word
+bindkey '^H'      vi-backward-kill-word
 bindkey "^[[H"    beginning-of-line
 bindkey "^[[F"    end-of-line
 
